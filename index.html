@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kunal Thakar — Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --surface: #141414; --surface2: #1c1c1c;
+      --border: rgba(255,255,255,0.07); --accent: #c8f06e; --accent2: #6ee4f0;
+      --text: #f0ede6; --muted: #7a7a72;
+      --serif: 'DM Serif Display', serif; --sans: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem; border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.85); backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 6rem 3rem 3rem; position: relative; overflow: hidden; gap: 2rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(200,240,110,0.06) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 20% 80%, rgba(110,228,240,0.04) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-block; font-family: var(--mono); font-size: 11px; color: var(--accent);
+      border: 1px solid rgba(200,240,110,0.3); padding: 4px 12px; border-radius: 2px;
+      margin-bottom: 2rem; letter-spacing: 0.1em;
+    }
+    h1.hero-name { font-family: var(--serif); font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    h1.hero-name em { font-style: italic; color: var(--accent); }
+    .hero-desc { font-size: 1rem; color: var(--muted); max-width: 480px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #0d0d0d; font-family: var(--mono);
+      font-size: 12px; font-weight: 500; padding: 12px 24px; border-radius: 2px;
+      text-decoration: none; letter-spacing: 0.06em; transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); color: var(--muted); font-family: var(--mono);
+      font-size: 12px; padding: 12px 24px; border-radius: 2px; text-decoration: none;
+      letter-spacing: 0.06em; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+    /* PROFILE PHOTO */
+    .hero-photo-wrap { position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-end; }
+    .photo-frame { position: relative; width: 300px; height: 460px; border-radius: 4px; overflow: visible; background: transparent; }
+    .photo-frame img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block; filter: drop-shadow(0 12px 40px rgba(200,240,110,0.10)) drop-shadow(0 4px 20px rgba(0,0,0,0.5)); }
+    .photo-accent { position: absolute; bottom: -12px; right: -12px; width: 80px; height: 80px; border: 2px solid var(--accent); border-radius: 2px; z-index: 0; }
+    .photo-accent2 { position: absolute; top: -10px; left: -10px; width: 50px; height: 50px; border: 1px solid rgba(110,228,240,0.3); border-radius: 2px; z-index: 0; }
+
+    /* SECTIONS */
+    section { padding: 6rem 3rem; }
+    .section-label {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 3rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .section-label::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: rgba(200,240,110,0.3); }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text h2 { font-family: var(--serif); font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .edu-card { border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.25rem; background: var(--surface); margin-top: 1.5rem; }
+    .edu-card .edu-degree { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .edu-card .edu-sub { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .edu-card .edu-cgpa { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 6px; }
+    .tags-group { margin-top: 1.5rem; }
+    .tags-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 0.75rem; letter-spacing: 0.08em; }
+    .tag { display: inline-block; font-family: var(--mono); font-size: 11px; color: var(--muted); border: 1px solid var(--border); padding: 4px 10px; border-radius: 2px; margin: 3px 4px 3px 0; transition: border-color 0.2s, color 0.2s; }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    .skills-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .skill-item { display: flex; flex-direction: column; gap: 6px; }
+    .skill-header { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .skill-bar { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--accent); border-radius: 1px; transform: scaleX(0); transform-origin: left; transition: transform 1.2s ease; }
+
+    /* PROJECTS */
+    .project-card { border: 1px solid var(--border); border-radius: 4px; padding: 2rem 2.5rem; background: var(--surface); position: relative; overflow: hidden; transition: border-color 0.3s; margin-bottom: 1.5rem; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; transition: opacity 0.3s; }
+    .project-card:hover { border-color: rgba(200,240,110,0.25); }
+    .project-card:hover::before { opacity: 1; }
+    .project-number { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .project-card h3 { font-family: var(--serif); font-size: 1.5rem; line-height: 1.2; margin-bottom: 0.75rem; }
+    .project-stack { font-family: var(--mono); font-size: 11px; color: var(--accent2); margin-bottom: 1.25rem; letter-spacing: 0.05em; }
+    .project-card ul { list-style: none; padding: 0; margin-bottom: 1rem; }
+    .project-card ul li { font-size: 14px; color: var(--muted); padding: 5px 0 5px 1.25rem; position: relative; line-height: 1.6; }
+    .project-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); }
+    .project-links { display: flex; gap: 1rem; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 0.5rem; }
+    .project-link { font-family: var(--mono); font-size: 11px; color: var(--accent2); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+    .project-link:hover { color: var(--text); }
+
+    /* CERTIFICATIONS */
+    .cert-card { border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem 2rem; background: var(--surface); display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1rem; transition: border-color 0.3s; }
+    .cert-card:hover { border-color: rgba(200,240,110,0.2); }
+    .cert-icon { font-family: var(--mono); font-size: 1.1rem; color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+    .cert-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .cert-desc { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+    .cert-date { font-family: var(--mono); font-size: 11px; color: var(--muted); opacity: 0.6; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-intro h2 { font-family: var(--serif); font-size: 2.5rem; line-height: 1.2; margin-bottom: 1rem; }
+    .contact-intro p { color: var(--muted); }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.25rem; text-decoration: none; color: var(--muted); transition: border-color 0.2s, color 0.2s; }
+    .contact-link:hover { border-color: var(--accent); color: var(--text); }
+    .contact-link-icon { font-family: var(--mono); font-size: 13px; color: var(--accent); min-width: 20px; }
+    .contact-link-label { font-family: var(--mono); font-size: 11px; color: var(--muted); display: block; margin-bottom: 2px; letter-spacing: 0.06em; }
+    .contact-link-val { font-size: 13px; }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 7rem; }
+      .hero-photo-wrap { order: -1; }
+      .photo-frame { width: 220px; height: 290px; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">KT.dev</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">AVAILABLE FOR OPPORTUNITIES</div>
+    <h1 class="hero-name">Kunal<br><em>Thakar</em></h1>
+    <p class="hero-desc">Aspiring Full-Stack Web Developer with hands-on experience building web apps using HTML, CSS, JavaScript, Python, Flask, and MySQL. Passionate about creating interactive, responsive websites.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="Kunal_Thakar_Resume.docx" download class="btn-ghost">Download Resume ↓</a>
+    </div>
+  </div>
+  <div class="hero-photo-wrap">
+    <div class="photo-accent"></div>
+    <div class="photo-accent2"></div>
+    <div class="photo-frame">
+      <img src="profile.png" alt="Kunal Thakar" />
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT & SKILLS -->
+<section id="about">
+  <div class="section-label">01 — About</div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <h2>Building things for the web.</h2>
+      <p>I'm a B.Sc. IT student at the University of Mumbai with a strong foundation in both front-end and back-end development. I enjoy creating full-stack applications that solve real problems.</p>
+      <p>My experience spans from computer vision projects using MediaPipe and OpenCV to full-stack job portals with Flask and MySQL — I love working across the stack.</p>
+      <div class="edu-card">
+        <div class="edu-degree">B.Sc. Information Technology</div>
+        <div class="edu-sub">University of Mumbai &nbsp;·&nbsp; 2023 – 2026 &nbsp;·&nbsp; Completed 3rd Year</div>
+        <div class="edu-cgpa">CGPA: 7.87</div>
+      </div>
+      <div class="tags-group">
+        <div class="tags-label">// languages</div>
+        <span class="tag">Python</span><span class="tag">Java</span><span class="tag">JavaScript</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">SQL</span><span class="tag">Excel</span>
+      </div>
+      <div class="tags-group">
+        <div class="tags-label">// frameworks & libraries</div>
+        <span class="tag">Flask</span><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">OpenCV</span><span class="tag">MediaPipe</span>
+      </div>
+      <div class="tags-group">
+        <div class="tags-label">// databases & tools</div>
+        <span class="tag">MySQL</span><span class="tag">Firebase</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">VS Code</span><span class="tag">Android Studio</span>
+      </div>
+    </div>
+    <div class="skills-list fade-in">
+      <div class="section-label" style="margin-bottom:1.5rem;">Skills</div>
+      <div class="skill-item"><div class="skill-header"><span>Python</span><span>85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.85"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span>HTML / CSS</span><span>80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.80"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span>JavaScript</span><span>70%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.70"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span>Flask</span><span>75%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.75"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span>OpenCV / MediaPipe</span><span>80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.80"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span>MySQL</span><span>70%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.70"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span>Java</span><span>60%</span></div><div class="skill-bar"><div class="skill-fill" data-width="0.60"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">02 — Projects</div>
+
+  <div class="project-card fade-in">
+    <div class="project-number">PROJECT_01</div>
+    <h3>3D Exercise Simulator with Camera-Based Rep Counter</h3>
+    <div class="project-stack">Python · OpenCV · MediaPipe · NumPy</div>
+    <ul>
+      <li>Built a real-time simulator that accesses the device camera to track body movements and count workout reps automatically.</li>
+      <li>Integrated MediaPipe Pose Estimation to detect 33 body landmarks and calculate joint angles for bicep curls, squats, and push-ups.</li>
+      <li>Implemented a rep counter using angle threshold logic — tracking the up/down phase of each exercise to increment the count accurately.</li>
+      <li>Rendered a 3D skeleton overlay on the live camera feed, providing visual feedback on posture and form in real time.</li>
+      <li>Designed an on-screen HUD displaying rep count, exercise stage, and accuracy score to guide users through workouts.</li>
+    </ul>
+  </div>
+
+  <div class="project-card fade-in">
+    <div class="project-number">PROJECT_02</div>
+    <h3>Job Hub — Job Portal Web Application</h3>
+    <div class="project-stack">HTML · CSS · JavaScript · Python · Flask · MySQL</div>
+    <ul>
+      <li>Developed a full-stack job portal allowing users to browse, search, and apply for job listings with a clean, responsive UI.</li>
+      <li>Built the back-end using Flask with MySQL integration to manage job postings, user registrations, and application tracking.</li>
+      <li>Implemented user authentication with separate flows for job seekers and recruiters, enabling role-based access.</li>
+      <li>Designed an interactive front-end with dynamic job filtering, search functionality, and real-time listing updates.</li>
+    </ul>
+    <div class="project-links">
+      <a href="https://job-hub--kunalthakar2085.replit.app" target="_blank" class="project-link">↗ Live Demo</a>
+      <a href="https://github.com/kunal216r" target="_blank" class="project-link">⌥ GitHub</a>
+    </div>
+  </div>
+
+  <div class="project-card fade-in">
+    <div class="project-number">PROJECT_03</div>
+    <h3>Personal Portfolio Website</h3>
+    <div class="project-stack">HTML · CSS · JavaScript</div>
+    <ul>
+      <li>Designed and developed a fully responsive personal portfolio website to showcase projects, skills, and contact information.</li>
+      <li>Implemented smooth scroll animations, a mobile-first layout using CSS Flexbox/Grid, and a contact form with JavaScript validation.</li>
+      <li>Deployed on GitHub Pages for public access with version control managed via Git.</li>
+    </ul>
+    <div class="project-links">
+      <a href="https://github.com/kunal216r" target="_blank" class="project-link">⌥ GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">03 — Certifications</div>
+
+  <div class="cert-card fade-in">
+    <div class="cert-icon">[✓]</div>
+    <div>
+      <div class="cert-title">Software Engineering Job Simulation — Accenture (via Forage)</div>
+      <div class="cert-desc">Architecture, Security, Programming, Testing &amp; Agile</div>
+      <div class="cert-date">July 11, 2025</div>
+    </div>
+  </div>
+
+  <div class="cert-card fade-in">
+    <div class="cert-icon">[✓]</div>
+    <div>
+      <div class="cert-title">Data Analytics Job Simulation — Deloitte (via Forage)</div>
+      <div class="cert-desc">Data Analysis &amp; Forensic Technology</div>
+      <div class="cert-date">April 24, 2026</div>
+    </div>
+  </div>
+
+  <div class="cert-card fade-in">
+    <div class="cert-icon">[✓]</div>
+    <div>
+      <div class="cert-title">Technology Software Development Job Simulation — Citi (via Forage)</div>
+      <div class="cert-desc">State Diagrams, Feature Proposals, Web Data Querying &amp; Live Data Visualization</div>
+      <div class="cert-date">May 31, 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">04 — Contact</div>
+  <div class="contact-grid">
+    <div class="contact-intro fade-in">
+      <h2>Let's work together.</h2>
+      <p>I'm actively looking for opportunities to contribute to real-world projects. Whether it's an internship, a freelance gig, or a full-time role — I'd love to hear from you.</p>
+      <br>
+      <a href="Kunal_Thakar_Resume.docx" download class="btn-ghost" style="margin-top:1rem;">Download Resume ↓</a>
+    </div>
+    <div class="contact-links fade-in">
+      <a href="mailto:kunalthakar2085@gmail.com" class="contact-link">
+        <span class="contact-link-icon">@</span>
+        <div><span class="contact-link-label">EMAIL</span><span class="contact-link-val">kunalthakar2085@gmail.com</span></div>
+      </a>
+      <a href="https://linkedin.com/in/kunal-thakar-29b4422a0" target="_blank" class="contact-link">
+        <span class="contact-link-icon">in</span>
+        <div><span class="contact-link-label">LINKEDIN</span><span class="contact-link-val">kunal-thakar-29b4422a0</span></div>
+      </a>
+      <a href="https://github.com/kunal216r" target="_blank" class="contact-link">
+        <span class="contact-link-icon">gh</span>
+        <div><span class="contact-link-label">GITHUB</span><span class="contact-link-val">github.com/kunal216r</span></div>
+      </a>
+      <a href="tel:+919321661256" class="contact-link">
+        <span class="contact-link-icon">#</span>
+        <div><span class="contact-link-label">PHONE</span><span class="contact-link-val">+91 93216 61256</span></div>
+      </a>
+      <a class="contact-link">
+        <span class="contact-link-icon">📍</span>
+        <div><span class="contact-link-label">LOCATION</span><span class="contact-link-val">Mumbai, Maharashtra</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Kunal Thakar</p>
+  <p>Built with HTML · CSS · JS</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-fill').forEach(bar => {
+          bar.style.transform = `scaleX(${bar.dataset.width})`;
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.skills-list').forEach(el => skillObserver.observe(el));
+</script>
+</body>
+</html>
